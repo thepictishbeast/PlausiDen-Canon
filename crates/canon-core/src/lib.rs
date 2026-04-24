@@ -1,6 +1,6 @@
 //! canon-core — shared trait definitions for Canon-conformant Rust UI targets.
 //!
-//! Imported by `targets/iced/`, `targets/egui/`, and any Rust UI consumer.
+//! Imported by `adapters/iced/`, `adapters/egui/`, and any Rust UI consumer.
 //! The traits encode capability mixins; a Canon-compliant component composes
 //! these and renders only through the primitives.
 //!

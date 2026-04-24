@@ -10,7 +10,7 @@ id              = "canon.button.v1"
 doctrine_version = "1.0"
 status          = "normative"     # experimental | normative | deprecated
 owners          = ["canon-maintainers"]
-implementations = ["targets/react", "targets/compose"]   # add as targets land
+implementations = ["adapters/react", "adapters/compose"]   # add as targets land
 
 # =================== Variant surface ===================
 # A Button MUST expose exactly these variants. Closed union — adding a new

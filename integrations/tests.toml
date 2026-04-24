@@ -14,25 +14,25 @@ root                = "contracts/"
 # concrete test cases per (contract, target) pair.
 [[targets.target]]
 name        = "react"
-path        = "targets/react"
+path        = "adapters/react"
 runner      = "vitest"
 e2e_runner  = "playwright"
 
 [[targets.target]]
 name        = "compose"
-path        = "targets/compose"
+path        = "adapters/compose"
 runner      = "junit5"
 e2e_runner  = "compose-test"
 
 [[targets.target]]
 name        = "iced"
-path        = "targets/iced"
+path        = "adapters/iced"
 runner      = "cargo-test"
 e2e_runner  = "headless-render"
 
 [[targets.target]]
 name        = "egui"
-path        = "targets/egui"
+path        = "adapters/egui"
 runner      = "cargo-test"
 e2e_runner  = "headless-render"
 

@@ -1,0 +1,65 @@
+# Canon ↔ consumer-corpus long-term integration.
+#
+# Canon is a candidate corpus for any neurosymbolic-substrate consumer —
+# i.e., a downstream system that wants to learn from how Canon's design
+# rules have evolved. Phased adoption — declared at v0.1 even though only
+# Phase 0 is operational, so the right data is collected from day one.
+#
+# This file is generic. Replace `target_repo` with the actual neurosymbolic
+# consumer you're integrating with. The phases are stack-neutral — they
+# describe what kind of consumer can ingest what, not which one.
+
+[meta]
+repo                = "PlausiDen-Canon"
+target_repo         = "<set to the consumer's repo URL>"  # e.g., a sovereign post-LLM substrate
+phase_current       = "0"
+
+[phases]
+
+[phases.phase_0]
+name        = "LLM-assisted suggestion"
+status      = "active"
+description = """
+An external LLM (via API or local) drafts contracts, explains violations,
+proposes fix codemods. Cheap unblocker. Deterministic engine remains the
+gate; AI suggestions never auto-apply. This phase requires no neurosymbolic
+substrate on the consumer side.
+"""
+
+[phases.phase_1]
+name        = "HDC drift detection"
+status      = "planned"
+description = """
+Encode every component as a bipolar HDC vector (D=10000) from features:
+AST shape, rendered screenshot hash, prop surface, behavioral signature.
+Drift = low cosine similarity vs cluster centroid for component class.
+Generic for any consumer with an HDC substrate (Vector Symbolic
+Architectures, Hyperdimensional Computing).
+"""
+
+[phases.phase_2]
+name        = "PSL soft rules"
+status      = "planned"
+description = """
+Soft contracts that resist boolean encoding ("buttons generally use primary
+color unless destructive in confirmation context"). Trust weights per rule
+source: designer > scraped web convention. Generic for any consumer with
+Probabilistic Soft Logic or comparable graded-truth substrate.
+"""
+
+[phases.phase_3]
+name        = "Sovereign oracle"
+status      = "future"
+description = """
+The consumer's neurosymbolic substrate ingests the full Canon corpus +
+every violation ledger across every Canon adopter. Queries like "is this
+new component consistent with established patterns" answered locally,
+not via an external API. Closes the PSA loop on design decisions.
+"""
+
+[data_collection]
+# Even in Phase 0, collect the data Phase 1+ will need.
+component_corpus      = true
+violation_ledger      = true
+screenshot_archive    = true
+prop_signature_log    = true

@@ -22,4 +22,4 @@ harvest_readiness           = "partial"
 [graduation]
 # Canon graduates Tier 1 → Tier 2 once at least one production consumer adopts the React target.
 next_gate = "first-production-consumer"
-candidate_consumers = ["Sacred.Vote"]
+candidate_consumers = ["any-production-ui-consumer"]  # first satisfier graduates Canon

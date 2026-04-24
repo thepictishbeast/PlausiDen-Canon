@@ -22,4 +22,4 @@
 
 ## Graduation gate
 
-Canon graduates from Tier 1 → Tier 2 once one production consumer (Sacred.Vote pilot) adopts the React target with a baseline.
+Canon graduates from Tier 1 → Tier 2 once one production consumer (first production consumer) adopts the React target with a baseline.

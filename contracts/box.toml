@@ -5,7 +5,7 @@ id              = "canon.box.v1"
 doctrine_version = "1.0"
 status          = "normative"
 owners          = ["canon-maintainers"]
-implementations = ["targets/react"]
+implementations = ["adapters/react"]
 
 # Box accepts only token-valued props. Raw px/rem/% forbidden.
 [variants.padding]

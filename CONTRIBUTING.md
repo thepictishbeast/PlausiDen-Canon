@@ -19,7 +19,7 @@ Read [`DOCTRINE.md`](DOCTRINE.md). Every change must align with one of the 13 te
 3. Update `integrations/audits.toml` if you added a new contract file.
 4. PlausiDen-Audits' canon rule pack will need an enforcer added before the rule activates in CI.
 
-## Primitives & Components (`targets/<target>/src/`)
+## Primitives & Components (`adapters/<target>/src/`)
 
 1. New components MUST satisfy an existing contract (`canon.<name>.v1`).
 2. Public API MUST NOT include `style` / `className` / `Modifier`-raw escape hatches.
@@ -34,7 +34,7 @@ Read [`DOCTRINE.md`](DOCTRINE.md). Every change must align with one of the 13 te
 
 ## Naming a new repo / target
 
-If you're scaffolding a new target (e.g., a SwiftUI port), the directory MUST be `targets/<lowercase-name>/`. Update `integrations/tests.toml` to register the target so test parameterization picks it up.
+If you're scaffolding a new target (e.g., a SwiftUI port), the directory MUST be `adapters/<lowercase-name>/`. Update `integrations/tests.toml` to register the target so test parameterization picks it up.
 
 ## Co-author trailer
 

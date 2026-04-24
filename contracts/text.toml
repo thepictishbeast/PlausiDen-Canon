@@ -5,7 +5,7 @@ id              = "canon.text.v1"
 doctrine_version = "1.0"
 status          = "normative"
 owners          = ["canon-maintainers"]
-implementations = ["targets/react"]
+implementations = ["adapters/react"]
 
 [variants.size]
 values  = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"]
