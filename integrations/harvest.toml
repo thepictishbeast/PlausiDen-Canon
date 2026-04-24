@@ -1,0 +1,28 @@
+# Canon ↔ PlausiDen-Harvest — upstream-candidates feed.
+#
+# Lists Canon's outputs that may be useful upstream (in PlausiDen-Audits,
+# PlausiDen-Tests, or other doctrine repos). Harvest tooling reads this on a
+# scheduled cycle and produces draft issues in the proposed_home repo.
+#
+# Submission status flow:
+#   experimental → in-use-internal → in-use-production → upstream-proposed → upstream-accepted → upstream-retired-from-here
+
+[meta]
+project              = "Canon"
+upstream_candidates  = true
+review_cadence       = "weekly"
+
+# v0.1 Canon has no production candidates yet; the contract format itself
+# could become a generic doctrine artifact once a second project adopts it.
+
+[[candidate]]
+id                   = "canon-2026-04-24-contract-toml-format"
+type                 = "doctrine-artifact"
+proposed_home        = "PlausiDen-AVP-Doctrine/templates"
+status               = "experimental"
+adoption_evidence    = "Used by Canon v0.1 contracts. No second consumer yet."
+generality_assessment = "Generic enough to describe any spec-bearing artifact (API, error, log)."
+doctrine_alignment   = ["detector=declared", "severity=declared", "waivable=declared", "rationale=mandatory"]
+artifact_path        = "./contracts/button.toml"
+rationale            = "Single contract format → reusable test/audit harness shape."
+notes                = "Promote when a non-UI domain (errors, logs, CLI UX) ships its first contract using the same shape."

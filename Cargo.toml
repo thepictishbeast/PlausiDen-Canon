@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/token-forge",
+    "crates/canon-core",
+    "crates/canon-contract-types",
+    "xtask",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["PlausiDen contributors"]
+repository = "https://github.com/thepictishbeast/PlausiDen-Canon"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }

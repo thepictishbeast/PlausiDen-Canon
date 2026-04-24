@@ -1,0 +1,68 @@
+# Contract: TextField
+
+[meta]
+id              = "canon.textfield.v1"
+doctrine_version = "1.0"
+status          = "normative"
+owners          = ["canon-maintainers"]
+implementations = ["targets/react"]
+
+[variants.size]
+values  = ["sm", "md", "lg"]
+default = "md"
+
+[variants.state]
+values  = ["enabled", "disabled", "readonly", "error"]
+default = "enabled"
+
+[variants.kind]
+values  = ["single-line", "multi-line"]
+default = "single-line"
+
+[[behavior]]
+id          = "soft-wrap"
+description = "Multi-line MUST soft-wrap at container width. Single-line MUST horizontal-scroll, never overflow the parent."
+detector    = "runtime-layout-fuzz"
+severity    = "error"
+waivable    = false
+rationale   = "Caught: long URLs in single-line fields breaking adjacent layout."
+
+[[behavior]]
+id          = "label-association"
+description = "Every TextField MUST have a programmatic label (`<label for>` / `aria-labelledby` / Compose semantics). Inferred placeholder is NOT a label."
+detector    = "static-api-shape"
+severity    = "error"
+waivable    = false
+rationale   = "Screen-reader + form autofill."
+
+[[behavior]]
+id          = "error-state-paired-message"
+description = "When `state=error`, an error-message slot MUST be present and non-empty. Type-level enforcement preferred."
+detector    = "type-system"
+severity    = "error"
+waivable    = false
+rationale   = "Telling a user they're wrong without telling them why is a UX failure."
+
+[[behavior]]
+id          = "max-length-with-counter"
+description = "When `maxLength` is set, a counter MUST appear at >=80% capacity. Below 80%, counter MAY be hidden."
+detector    = "runtime-interaction"
+severity    = "warn"
+waivable    = true
+rationale   = "Reduces frustration on character-limited fields."
+
+[[behavior]]
+id          = "no-autofill-disable-without-justification"
+description = "`autoComplete=off` and equivalents MUST carry a code comment justifying it. Most disables are anti-patterns (browsers ignore them anyway and users hate retyping passwords)."
+detector    = "static-comment-required"
+severity    = "warn"
+waivable    = true
+rationale   = "Most autofill-disables are cargo-culted."
+
+[[behavior]]
+id          = "pii-input-marked-secret"
+description = "Input fields collecting credentials, SSNs, payment numbers, etc. MUST be marked with the platform Secret wrapper so PlausiDen-Obs does not log values."
+detector    = "static-type-flow"
+severity    = "error"
+waivable    = false
+rationale   = "Confidentiality kernel + observability doctrine alignment."

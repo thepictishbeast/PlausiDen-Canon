@@ -1,0 +1,53 @@
+# Contract: Stack (vertical/horizontal layout primitive)
+
+[meta]
+id              = "canon.stack.v1"
+doctrine_version = "1.0"
+status          = "normative"
+owners          = ["canon-maintainers"]
+implementations = ["targets/react"]
+
+[variants.direction]
+values  = ["vertical", "horizontal"]
+default = "vertical"
+
+[variants.gap]
+values  = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+default = "2"
+description = "Spacing between children. Maps to spacing.{N} token."
+
+[variants.align]
+values  = ["start", "center", "end", "stretch"]
+default = "stretch"
+
+[variants.justify]
+values  = ["start", "center", "end", "between", "around"]
+default = "start"
+
+[variants.wrap]
+values  = ["nowrap", "wrap"]
+default = "nowrap"
+
+[[behavior]]
+id          = "gap-token-only"
+description = "`gap` value MUST be one of the declared spacing token steps. Raw px / rem / arbitrary values forbidden."
+detector    = "static-api-shape"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 1."
+
+[[behavior]]
+id          = "no-margin-on-children"
+description = "Stack manages spacing via `gap`. Children MUST NOT use margin to space themselves within a Stack."
+detector    = "static-ast-property"
+severity    = "warn"
+waivable    = true
+rationale   = "Mixing margin + gap produces inconsistent layouts."
+
+[[behavior]]
+id          = "wrap-respects-gap"
+description = "When `wrap=wrap`, the `gap` MUST apply to both axes (row gap = column gap)."
+detector    = "runtime-layout"
+severity    = "error"
+waivable    = false
+rationale   = "Visual consistency on viewport-driven reflow."

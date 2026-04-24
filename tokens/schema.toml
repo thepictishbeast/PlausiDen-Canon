@@ -1,0 +1,53 @@
+# Schema for tokens/tokens.toml.
+# Validated by `cargo run -p token-forge -- validate`.
+# Intentionally a TOML schema (not JSON Schema) because the tokens themselves
+# are TOML — keeps the validator dependency-free and avoids translation drift.
+
+[schema]
+version = "1.0"
+
+# Required top-level tables. Missing any one → validation error.
+[schema.required_tables]
+tables = ["meta", "color", "spacing", "radius", "typography", "breakpoint", "motion", "z_index", "touch_target"]
+
+# Color groups must each include `default` AND `fg_on_default` for contrast pairing.
+[schema.color]
+required_groups = ["surface", "primary", "danger"]
+required_per_group = ["default", "fg_on_default"]
+allowed_value_form = ["hex", "rgba"]
+
+# Spacing must declare `unit` and a 0-12 step ladder.
+[schema.spacing]
+required_keys = ["unit", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+unit_must_equal = 4
+
+# Radius required keys.
+[schema.radius]
+required_keys = ["none", "sm", "md", "lg", "xl", "full"]
+
+# Typography requires sans + mono families and a size scale aligned with line-heights.
+[schema.typography]
+required_keys = ["font_family_sans", "font_family_mono", "size", "line_height", "weight"]
+required_size_keys = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"]
+size_keys_must_match_line_height_keys = true
+required_weight_keys = ["regular", "medium", "semibold", "bold"]
+
+# Breakpoints must be ascending.
+[schema.breakpoint]
+required_keys_ascending = ["sm", "md", "lg", "xl", "2xl"]
+
+# Motion durations + easings.
+[schema.motion]
+required_keys = ["duration", "easing"]
+required_duration_keys = ["instant", "fast", "normal", "slow"]
+required_easing_keys = ["linear", "standard", "decelerate", "accelerate"]
+
+# Z-index banded scale; bands must be at least 100 apart to leave room.
+[schema.z_index]
+required_keys = ["base", "docked", "overlay", "modal", "toast", "tooltip"]
+min_band_gap = 100
+
+# Touch target min — WCAG-aligned floor.
+[schema.touch_target]
+required_keys = ["min_width", "min_height"]
+min_floor = 44

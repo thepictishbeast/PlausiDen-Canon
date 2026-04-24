@@ -1,0 +1,128 @@
+# Contract: Button
+#
+# Platform-independent specification of what every Button implementation
+# (React, Compose, iced, egui, …) MUST satisfy. Consumed by:
+#   - PlausiDen-Audits — to enforce static + runtime rules.
+#   - PlausiDen-Tests  — to generate parameterized test cases per target.
+
+[meta]
+id              = "canon.button.v1"
+doctrine_version = "1.0"
+status          = "normative"     # experimental | normative | deprecated
+owners          = ["canon-maintainers"]
+implementations = ["targets/react", "targets/compose"]   # add as targets land
+
+# =================== Variant surface ===================
+# A Button MUST expose exactly these variants. Closed union — adding a new
+# variant is a doctrine PR, not a per-consumer prop.
+[variants.intent]
+values  = ["primary", "secondary", "ghost", "danger"]
+default = "secondary"
+description = "Visual emphasis. `danger` reserved for irreversible/destructive actions."
+
+[variants.size]
+values  = ["sm", "md", "lg"]
+default = "md"
+description = "Vertical density. Maps to spacing tokens 1/2/3 for vertical padding."
+
+[variants.state]
+values  = ["enabled", "disabled", "loading"]
+default = "enabled"
+
+[variants.shape]
+values  = ["rectangle", "icon-only"]
+default = "rectangle"
+
+# =================== Required behaviors ===================
+# Each behavior is detected by an Audits rule. The contract_ref a rule
+# carries points back to one of these IDs.
+
+[[behavior]]
+id          = "touch-target"
+description = "Hit area must be at least 44×44 (WCAG 2.5.5 AAA). When visual size is smaller, padding extends the hit area."
+detector    = "runtime-layout"
+severity    = "error"
+waivable    = false
+rationale   = "Mobile usability + accessibility floor. Non-negotiable."
+
+[[behavior]]
+id          = "min-internal-spacing"
+description = "Adjacent buttons MUST have at least 8px (spacing.2) gap between hit areas. Validated runtime."
+detector    = "runtime-layout"
+severity    = "error"
+waivable    = false
+rationale   = "Prevents mis-tap on adjacent destructive actions."
+
+[[behavior]]
+id          = "label-overflow"
+description = "Label text must not overflow the button's content box. Long labels truncate via single-line ellipsis OR wrap to two lines (designer choice via `wrap` variant — TBD v0.2)."
+detector    = "runtime-layout-fuzz"
+severity    = "error"
+waivable    = false
+rationale   = "Caught in screenshots: 'Submit Reimbursement Request' overflowing on mobile."
+
+[[behavior]]
+id          = "color-contrast"
+description = "Label vs background MUST meet WCAG AA (4.5:1 body / 3:1 large). Validated against the (intent.X.default, intent.X.fg_on_default) token pair."
+detector    = "static-contrast"
+severity    = "error"
+waivable    = false
+rationale   = "Accessibility floor."
+
+[[behavior]]
+id          = "focus-visible"
+description = "Keyboard focus must produce a visible outline using `color.primary.default` at ≥2px. The outline must not be removed by hover or active states."
+detector    = "runtime-keyboard"
+severity    = "error"
+waivable    = false
+rationale   = "Keyboard-only navigation."
+
+[[behavior]]
+id          = "loading-locks-action"
+description = "When `state=loading`, click handlers MUST NOT fire. Implementations may render a spinner; they MUST disable the underlying activator."
+detector    = "static-state-machine"
+severity    = "error"
+waivable    = false
+rationale   = "Double-submit prevention."
+
+[[behavior]]
+id          = "icon-only-requires-label"
+description = "When `shape=icon-only`, an `ariaLabel` (or platform equivalent) is REQUIRED and enforced at the type level (discriminated union). Compile error if omitted."
+detector    = "type-system"
+severity    = "error"
+waivable    = false
+rationale   = "Screen-reader accessibility."
+
+[[behavior]]
+id          = "pressable-feedback"
+description = "Mouse / touch press MUST produce a visual state change (active intent variant or scale transform 0.97). Duration: motion.duration.fast (120ms)."
+detector    = "runtime-interaction"
+severity    = "warn"
+waivable    = true
+rationale   = "User confirmation that input was received."
+
+[[behavior]]
+id          = "no-style-escape-hatch"
+description = "Public Button props MUST NOT include `style`, `className`, `sx`, `Modifier` (raw), or any other open-ended styling channel. Variants only."
+detector    = "static-api-shape"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 3 (no escape hatches)."
+
+[[behavior]]
+id          = "render-via-primitives"
+description = "Implementation MUST compose `Pressable` + `Text` (+ optional icon `Box`) primitives. Direct DOM/View nodes forbidden in component code."
+detector    = "static-ast-import"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 2."
+
+# =================== Deprecation pipeline ===================
+# Variants and behaviors get deprecated, never removed silently.
+
+[deprecation]
+# Example for future use:
+# [[deprecation.variant]]
+# path        = "intent.tertiary"
+# replacement = "ghost"
+# remove_after = "2026-12-31"

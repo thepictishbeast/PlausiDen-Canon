@@ -1,0 +1,53 @@
+# Contract: Text
+
+[meta]
+id              = "canon.text.v1"
+doctrine_version = "1.0"
+status          = "normative"
+owners          = ["canon-maintainers"]
+implementations = ["targets/react"]
+
+[variants.size]
+values  = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"]
+default = "md"
+
+[variants.weight]
+values  = ["regular", "medium", "semibold", "bold"]
+default = "regular"
+
+[variants.color]
+values  = ["surface.fg_on_default", "surface.fg_on_raised", "primary.default", "danger.default", "neutral.default"]
+default = "surface.fg_on_default"
+
+[variants.tone]
+values  = ["body", "code"]
+default = "body"
+description = "Maps to font_family_sans vs font_family_mono."
+
+[variants.truncate]
+values  = ["none", "single-line", "two-line"]
+default = "none"
+
+[[behavior]]
+id          = "size-line-height-pair"
+description = "Computed line-height MUST match the line_height token entry of the same key as `size`. typography.size.md → typography.line_height.md."
+detector    = "runtime-layout"
+severity    = "error"
+waivable    = false
+rationale   = "Vertical rhythm."
+
+[[behavior]]
+id          = "soft-wrap-default"
+description = "Default text MUST soft-wrap. Non-breaking strings (long URLs, hashes) MUST receive `overflow-wrap: anywhere` (or platform equivalent) so the parent container is never forced wider than the viewport."
+detector    = "runtime-layout-fuzz"
+severity    = "error"
+waivable    = false
+rationale   = "The single most common source of horizontal-overflow bugs in shipped UIs."
+
+[[behavior]]
+id          = "no-raw-color"
+description = "`color` value MUST come from the declared color token namespace. Hex / rgba forbidden in component invocations."
+detector    = "static-token-usage"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 1."

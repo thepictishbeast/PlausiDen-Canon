@@ -1,0 +1,46 @@
+# Canon ↔ PlausiDen-Audits integration.
+#
+# Tells PlausiDen-Audits where this repo's contracts live so it can build
+# rule packs that reference contract clauses by ID.
+
+[meta]
+repo                = "PlausiDen-Canon"
+doctrine_version    = "1.0"
+
+[contracts]
+root                = "contracts/"
+schema_crate        = "canon-contract-types"
+
+[[contract]]
+id                  = "canon.button.v1"
+file                = "contracts/button.toml"
+
+[[contract]]
+id                  = "canon.textfield.v1"
+file                = "contracts/textfield.toml"
+
+[[contract]]
+id                  = "canon.dialog.v1"
+file                = "contracts/dialog.toml"
+
+[[contract]]
+id                  = "canon.stack.v1"
+file                = "contracts/stack.toml"
+
+[[contract]]
+id                  = "canon.box.v1"
+file                = "contracts/box.toml"
+
+[[contract]]
+id                  = "canon.text.v1"
+file                = "contracts/text.toml"
+
+[[contract]]
+id                  = "canon.invariants.v1"
+file                = "contracts/invariants.toml"
+
+[rule_packs]
+# Audits should ship a `canon` rule pack that references contract clauses
+# via plausiden-canon://contracts/<file>.toml#<behavior-or-invariant-id>.
+expected_pack       = "canon"
+target_repo         = "https://github.com/thepictishbeast/PlausiDen-Audits"

@@ -1,0 +1,72 @@
+# Contract: Dialog
+
+[meta]
+id              = "canon.dialog.v1"
+doctrine_version = "1.0"
+status          = "normative"
+owners          = ["canon-maintainers"]
+implementations = ["targets/react"]
+
+[variants.size]
+values  = ["sm", "md", "lg", "fullscreen"]
+default = "md"
+
+[variants.role]
+values  = ["modal", "non-modal"]
+default = "modal"
+
+[[behavior]]
+id          = "focus-trap"
+description = "When role=modal, keyboard focus MUST be trapped within the dialog while open. Tab past the last focusable element returns to the first; Shift+Tab from the first goes to the last."
+detector    = "runtime-keyboard"
+severity    = "error"
+waivable    = false
+rationale   = "Standard ARIA modal pattern."
+
+[[behavior]]
+id          = "escape-closes"
+description = "Escape MUST close the dialog. The close handler MUST be called (consumer can prevent if explicitly desired)."
+detector    = "runtime-keyboard"
+severity    = "error"
+waivable    = false
+rationale   = "Universal expectation."
+
+[[behavior]]
+id          = "scrim-click-closes"
+description = "Click on the scrim (modal overlay outside the dialog body) MUST close the dialog by default. Consumer can opt out for destructive-confirmation flows."
+detector    = "runtime-interaction"
+severity    = "warn"
+waivable    = true
+rationale   = "Common but not universal expectation."
+
+[[behavior]]
+id          = "scroll-lock-body"
+description = "When role=modal and open, document body scroll MUST be locked. Inner dialog content scrolls independently."
+detector    = "runtime-interaction"
+severity    = "error"
+waivable    = false
+rationale   = "Background scrolling under a modal is a common UX bug."
+
+[[behavior]]
+id          = "z-index-band"
+description = "Dialog z-index MUST come from `z_index.modal` token. No hardcoded values."
+detector    = "static-token-usage"
+severity    = "error"
+waivable    = false
+rationale   = "Token doctrine."
+
+[[behavior]]
+id          = "restored-focus"
+description = "On close, focus MUST return to the element that opened the dialog (or to a documented fallback)."
+detector    = "runtime-keyboard"
+severity    = "error"
+waivable    = false
+rationale   = "Keyboard nav continuity."
+
+[[behavior]]
+id          = "title-required"
+description = "Dialog MUST have a title (programmatically associated via aria-labelledby or platform equivalent). Title-less dialogs fail screen-reader navigation."
+detector    = "type-system"
+severity    = "error"
+waivable    = false
+rationale   = "Accessibility floor."

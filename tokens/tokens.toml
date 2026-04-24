@@ -1,0 +1,158 @@
+# PlausiDen-Canon — Token Manifest (Source of Truth)
+#
+# Edit only this file. Run `cargo run -p token-forge -- regenerate` to update
+# tokens/generated/{css,ts,kotlin,rust}/ — committed artifacts that CI verifies
+# match the manifest. Drift = build failure.
+#
+# Schema authority: tokens/schema.toml. Validate with:
+#   cargo run -p token-forge -- validate
+
+[meta]
+schema_version  = "1.0"
+doctrine_version = "1.0"
+notes = "v0.1 covers color, spacing, radius, typography, breakpoints, motion, z-index, touch-target."
+
+# =================== Color ===================
+# Semantic, not literal. "primary" / "surface" / "danger" — never "blue-500".
+# A "fg-on-X" companion exists for every "X" so contrast is always the
+# token-pair, not a calculation downstream.
+
+[color.surface]
+default       = "#0b0d10"
+raised        = "#13161b"
+sunken        = "#06080a"
+overlay       = "rgba(0, 0, 0, 0.55)"
+fg_on_default = "#e6e9ee"
+fg_on_raised  = "#f1f4f8"
+fg_on_sunken  = "#c7ccd3"
+
+[color.primary]
+default       = "#5b8def"
+hover         = "#7aa3f5"
+active        = "#3f70d3"
+fg_on_default = "#0b0d10"
+
+[color.success]
+default       = "#3fb96b"
+fg_on_default = "#06080a"
+
+[color.warning]
+default       = "#e0a64b"
+fg_on_default = "#06080a"
+
+[color.danger]
+default       = "#e0524b"
+hover         = "#ec6b65"
+active        = "#c43a34"
+fg_on_default = "#fdf6f5"
+
+[color.neutral]
+default       = "#6b7280"
+fg_on_default = "#f1f4f8"
+
+# Borders + dividers
+[color.border]
+subtle  = "rgba(255, 255, 255, 0.06)"
+default = "rgba(255, 255, 255, 0.12)"
+strong  = "rgba(255, 255, 255, 0.24)"
+
+# =================== Spacing ===================
+# 4px base grid. Step 0 is 0, step 1 is 4px, step 2 is 8px, ...
+# Components reference steps by name (`space="4"`), never raw px.
+
+[spacing]
+unit    = 4
+"0"     = 0
+"1"     = 4
+"2"     = 8
+"3"     = 12
+"4"     = 16
+"5"     = 20
+"6"     = 24
+"7"     = 32
+"8"     = 40
+"9"     = 48
+"10"    = 64
+"11"    = 80
+"12"    = 96
+
+# =================== Radius ===================
+[radius]
+none = 0
+sm   = 4
+md   = 8
+lg   = 12
+xl   = 16
+full = 9999
+
+# =================== Typography ===================
+[typography]
+font_family_sans = "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Inter, sans-serif"
+font_family_mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
+
+# Font-size scale (1.25 step from 12 to 48).
+[typography.size]
+xs   = 12
+sm   = 14
+md   = 16
+lg   = 18
+xl   = 20
+"2xl" = 24
+"3xl" = 30
+"4xl" = 36
+"5xl" = 48
+
+# Line-height in absolute px (avoids unitless drift).
+[typography.line_height]
+xs   = 16
+sm   = 20
+md   = 24
+lg   = 28
+xl   = 28
+"2xl" = 32
+"3xl" = 36
+"4xl" = 40
+"5xl" = 56
+
+[typography.weight]
+regular  = 400
+medium   = 500
+semibold = 600
+bold     = 700
+
+# =================== Breakpoints ===================
+# Mobile-first. A query at "md" applies at >=768px.
+[breakpoint]
+sm = 480
+md = 768
+lg = 1024
+xl = 1440
+"2xl" = 1920
+
+# =================== Motion ===================
+[motion.duration]
+instant = 0
+fast    = 120
+normal  = 240
+slow    = 400
+
+[motion.easing]
+linear      = "linear"
+standard    = "cubic-bezier(0.2, 0.0, 0.0, 1.0)"
+decelerate  = "cubic-bezier(0.0, 0.0, 0.0, 1.0)"
+accelerate  = "cubic-bezier(0.3, 0.0, 1.0, 1.0)"
+
+# =================== Z-index ===================
+# Banded scale prevents arms-race.
+[z_index]
+base    = 0
+docked  = 100
+overlay = 1000
+modal   = 1100
+toast   = 1200
+tooltip = 1300
+
+# =================== Touch target (min) ===================
+[touch_target]
+min_width  = 44
+min_height = 44

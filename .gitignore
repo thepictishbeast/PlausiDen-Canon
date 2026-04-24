@@ -1,0 +1,15 @@
+/target/
+**/node_modules/
+.DS_Store
+*.log
+
+# tokens/generated/ is COMMITTED — token-forge verify gate enforces parity.
+# Do NOT add tokens/generated/ to .gitignore.
+
+# React build artifacts (per-target, not the source)
+targets/react/dist/
+targets/react/.vite/
+
+# Compose / Android
+targets/compose/build/
+targets/compose/.gradle/

@@ -1,0 +1,85 @@
+# Cross-component invariants. Apply globally regardless of component identity.
+
+[meta]
+id              = "canon.invariants.v1"
+doctrine_version = "1.0"
+
+[[invariant]]
+id          = "no-horizontal-overflow"
+description = "On every viewport in [320, 375, 768, 1024, 1440, 1920], the document body MUST NOT scroll horizontally. Tested with content-length variants {10, 100, 10000} including unbroken strings."
+detector    = "runtime-property"
+severity    = "error"
+waivable    = false
+rationale   = "Single most common screenshot failure."
+
+[[invariant]]
+id          = "min-interactive-spacing"
+description = "Adjacent interactive elements (Button, TextField, Pressable, etc.) MUST have at least 8px (spacing.2) between hit areas."
+detector    = "runtime-layout"
+severity    = "error"
+waivable    = false
+rationale   = "Mis-tap prevention, especially adjacent destructive actions."
+
+[[invariant]]
+id          = "color-contrast-aa"
+description = "All text vs background pairs MUST meet WCAG AA (4.5:1 body, 3:1 large text). Validated via axe-core or equivalent at runtime."
+detector    = "runtime-axe"
+severity    = "error"
+waivable    = false
+rationale   = "Accessibility floor."
+
+[[invariant]]
+id          = "no-non-system-component"
+description = "No raw `<button>`, `<input>`, `<a>` (without `Pressable`), `<div>` with style, etc., in consumer code. AST rule (semgrep / tree-sitter)."
+detector    = "static-ast"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 2."
+
+[[invariant]]
+id          = "no-arbitrary-tailwind"
+description = "No `w-[13px]` / `text-[14.5px]` / arbitrary Tailwind values. All sizes via tokens."
+detector    = "static-ast"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 1."
+
+[[invariant]]
+id          = "keyboard-nav-complete"
+description = "Every interactive surface MUST be reachable via Tab. Tab order MUST match DOM order. Skip-link MUST exist for repeated navigation."
+detector    = "runtime-keyboard"
+severity    = "error"
+waivable    = false
+rationale   = "Keyboard accessibility."
+
+[[invariant]]
+id          = "no-pii-in-logs"
+description = "Token / Secret / PII-marked values MUST NOT appear in any log emission. Cross-cuts with PlausiDen-Obs doctrine."
+detector    = "static-type-flow"
+severity    = "error"
+waivable    = false
+rationale   = "Confidentiality kernel + observability doctrine."
+
+[[invariant]]
+id          = "z-index-from-band"
+description = "All z-index values MUST come from the `z_index.*` token band. Hardcoded numbers forbidden."
+detector    = "static-token-usage"
+severity    = "error"
+waivable    = false
+rationale   = "Z-index arms-race prevention."
+
+[[invariant]]
+id          = "motion-respects-reduced"
+description = "All non-essential motion (decorative animations, parallax, auto-scrolling) MUST be disabled when `prefers-reduced-motion` is set."
+detector    = "runtime-media-query"
+severity    = "error"
+waivable    = false
+rationale   = "Accessibility, vestibular safety."
+
+[[invariant]]
+id          = "rtl-safe-layout"
+description = "Layouts MUST mirror correctly under `dir=rtl`. No `marginLeft`/`marginRight` (use logical `marginInlineStart`/`marginInlineEnd`)."
+detector    = "static-ast"
+severity    = "warn"
+waivable    = true
+rationale   = "i18n; promotes to error once an RTL locale ships."

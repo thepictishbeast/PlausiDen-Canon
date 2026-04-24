@@ -1,0 +1,45 @@
+# Canon ↔ PlausiDen-Tests integration.
+#
+# Tells PlausiDen-Tests how to parameterize generated test cases.
+
+[meta]
+repo                = "PlausiDen-Canon"
+doctrine_version    = "1.0"
+
+[contracts]
+root                = "contracts/"
+
+[targets]
+# Each target where Canon contracts must hold. PlausiDen-Tests generates
+# concrete test cases per (contract, target) pair.
+[[targets.target]]
+name        = "react"
+path        = "targets/react"
+runner      = "vitest"
+e2e_runner  = "playwright"
+
+[[targets.target]]
+name        = "compose"
+path        = "targets/compose"
+runner      = "junit5"
+e2e_runner  = "compose-test"
+
+[[targets.target]]
+name        = "iced"
+path        = "targets/iced"
+runner      = "cargo-test"
+e2e_runner  = "headless-render"
+
+[[targets.target]]
+name        = "egui"
+path        = "targets/egui"
+runner      = "cargo-test"
+e2e_runner  = "headless-render"
+
+[fuzz]
+# Content-length matrix for layout-fuzz tests.
+content_length_chars = [10, 100, 1000, 10000]
+# Include unbroken-string injection at each length.
+include_unbroken     = true
+# Viewport matrix for property tests.
+viewport_widths      = [320, 375, 768, 1024, 1440, 1920]

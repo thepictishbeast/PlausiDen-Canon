@@ -1,0 +1,41 @@
+# Contract: Box (atomic container primitive)
+
+[meta]
+id              = "canon.box.v1"
+doctrine_version = "1.0"
+status          = "normative"
+owners          = ["canon-maintainers"]
+implementations = ["targets/react"]
+
+# Box accepts only token-valued props. Raw px/rem/% forbidden.
+[variants.padding]
+values  = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+default = "0"
+
+[variants.background]
+values  = ["transparent", "surface.default", "surface.raised", "surface.sunken"]
+default = "transparent"
+
+[variants.radius]
+values  = ["none", "sm", "md", "lg", "xl", "full"]
+default = "none"
+
+[variants.border]
+values  = ["none", "subtle", "default", "strong"]
+default = "none"
+
+[[behavior]]
+id          = "no-raw-style"
+description = "Box MUST NOT accept any raw style/className-equivalent prop. All visual properties via the variant union."
+detector    = "static-api-shape"
+severity    = "error"
+waivable    = false
+rationale   = "Doctrine tenet 3."
+
+[[behavior]]
+id          = "render-target-element"
+description = "Box renders to a single underlying view node. No fragment, no array. One Box = one node."
+detector    = "static-ast-return"
+severity    = "error"
+waivable    = false
+rationale   = "Predictable layout semantics."

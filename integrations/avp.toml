@@ -1,0 +1,25 @@
+# Canon ↔ PlausiDen-AVP-Doctrine integration.
+#
+# Declares which AVP tiers Canon targets and the current pass state.
+# AVP-STATUS.md is regenerated from this file.
+
+[meta]
+repo                = "PlausiDen-Canon"
+doctrine_version    = "1.0"
+engine_version      = "0.1.0-pre"
+
+[tiers]
+tier_1_correctness          = "passing"
+tier_2_fuzz                 = "not_started"
+tier_3_adversarial          = "not_started"
+tier_4_cross_platform       = "not_started"
+tier_5_visual_drift         = "not_started"
+tier_6_formal               = "not_started"
+doctrine_conformance        = "passing"
+generality                  = "passing"
+harvest_readiness           = "partial"
+
+[graduation]
+# Canon graduates Tier 1 → Tier 2 once at least one production consumer adopts the React target.
+next_gate = "first-production-consumer"
+candidate_consumers = ["Sacred.Vote"]

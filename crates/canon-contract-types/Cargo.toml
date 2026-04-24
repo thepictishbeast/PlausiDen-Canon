@@ -1,0 +1,12 @@
+[package]
+name = "canon-contract-types"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Rust types for Canon contract TOML files. Imported by PlausiDen-Audits and PlausiDen-Tests so the schema authority stays with Canon."
+
+[dependencies]
+serde.workspace = true
+toml.workspace = true

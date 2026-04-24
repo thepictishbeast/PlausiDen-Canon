@@ -1,0 +1,15 @@
+[package]
+name = "token-forge"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Generate per-target token constants (CSS / TS / Kotlin / Rust) from tokens/tokens.toml."
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+anyhow.workspace = true
+clap.workspace = true
