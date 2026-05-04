@@ -59,7 +59,9 @@ fn validate(cli: &Cli) -> anyhow::Result<()> {
     //       See tokens/schema.toml for the full rule set.
     let _ = std::fs::read_to_string(&cli.tokens)?;
     let _ = std::fs::read_to_string(&cli.schema)?;
-    eprintln!("token-forge validate: SCAFFOLD — implement schema enforcement before shipping v0.1.");
+    eprintln!(
+        "token-forge validate: SCAFFOLD — implement schema enforcement before shipping v0.1."
+    );
     Ok(())
 }
 

@@ -10,10 +10,46 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  CARGO_TERM_COLOR: always
+
+# Canon is dual-language:
+#   - Rust workspace at the root (token-forge / canon-core /
+#     canon-contract-types / xtask)
+#   - TypeScript reference adapter at adapters/react
+# The previous CI only handled the TS adapter and ran from the
+# root, where there's no package.json — `bun install` failed
+# immediately. Split into rust + doc + typescript jobs.
+
 jobs:
-  typescript:
-    name: bun install + test + tsc
+  rust:
+    name: cargo fmt + clippy + test
     runs-on: [self-hosted, linux, x64, plausiden]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets --locked
+      - run: cargo test --workspace --locked
+
+  doc:
+    name: cargo doc (strict)
+    runs-on: [self-hosted, linux, x64, plausiden]
+    env:
+      RUSTDOCFLAGS: "-D warnings"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo doc --workspace --no-deps --locked
+
+  typescript:
+    name: bun install + vitest + tsc (adapters/react)
+    runs-on: [self-hosted, linux, x64, plausiden]
+    defaults:
+      run:
+        working-directory: adapters/react
     steps:
       - uses: actions/checkout@v4
       - name: install
@@ -25,7 +61,7 @@ jobs:
           fi
       - name: test
         run: |
-          if command -v bun >/dev/null 2>&1 && [ -f bunfig.toml -o -f package.json ]; then
+          if command -v bun >/dev/null 2>&1; then
             bun test 2>/dev/null || npm test --if-present
           else
             npm test --if-present
