@@ -13,3 +13,6 @@ adapters/react/.vite/
 # Compose / Android
 adapters/compose/build/
 adapters/compose/.gradle/
+
+# agent onboarding kept local-only (cruft standard)
+AGENTS.md
